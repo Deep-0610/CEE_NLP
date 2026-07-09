@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise NLP Lab Studio</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #060911;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0d121f; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+    </style>
+</head>
+<body class="text-slate-200 antialiased min-h-screen flex flex-col selection:bg-blue-500/30 selection:text-blue-200">
+
+    <header class="border-b border-slate-800 bg-[#090d16]/90 backdrop-blur sticky top-0 z-40 px-4 py-4 md:px-6 flex items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+            <button onclick="toggleNav(true)" class="lg:hidden p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors" aria-label="Open Menu">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+            
+            <div class="h-9 w-9 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
+                <span class="code-font font-bold text-white text-sm">&lt;/&gt;</span>
+            </div>
+            <div>
+                <h1 class="text-sm md:text-lg font-bold tracking-tight text-white">NLP.HyperMatrix<span class="text-blue-500 text-xs ml-2 px-1.5 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 font-mono font-normal">v16.0 Popup-Nav</span></h1>
+                <p class="hidden sm:block text-[11px] md:text-xs text-slate-400">Interactive Computational Linguistics Laboratory & Codex</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3 text-xs border-slate-800">
+            <div class="bg-slate-900/60 p-2 rounded-lg border border-slate-800/60 text-right sm:text-left">
+                <span class="text-slate-500 block uppercase tracking-wider font-semibold text-[8px] md:text-[9px]">Architect / Pipeline</span>
+                <span class="font-bold text-blue-400 text-[10px] md:text-xs">Deep & Prem</span>
+                <span class="hidden md:inline text-slate-400 font-mono text-[10px]"> (R4 & R10)</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 relative min-h-0">
+        
+        <div id="nav-overlay" onclick="toggleNav(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden opacity-0 pointer-events-none transition-opacity duration-300"></div>
+        
+        <aside id="sidebar-nav" class="fixed inset-y-0 left-0 w-80 border-r border-slate-800/80 bg-[#070a12] p-4 space-y-4 overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 lg:z-30 lg:sticky lg:top-[73px] lg:h-[calc(100vh-73px)]">
+            
+            <div class="flex items-center justify-between lg:hidden border-b border-slate-800 pb-3 mb-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Navigation Matrix</span>
+                <button onclick="toggleNav(false)" class="p-1.5 rounded-md bg-slate-900 border border-slate-800 text-slate-400 hover:text-white">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <button onclick="switchSection('overview')" id="nav-overview" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all bg-blue-600 text-white shadow-md shadow-blue-600/10">
+                <span>📊</span> <span>Architecture Overview Hub</span>
+            </button>
+
+            <div class="space-y-1">
+                <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 px-3 mb-1">M1: Preprocessing & Features</div>
+                <button onclick="switchSection('s1_2')" id="nav-s1_2" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>1.2 Text Preprocessing</span> <span class="text-[10px]">➡️</span></button>
+                <button onclick="switchSection('s1_3')" id="nav-s1_3" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>1.3 Advanced Tokenization</span> <span class="text-[10px]">➡️</span></button>
+                <button onclick="switchSection('s1_4')" id="nav-s1_4" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>1.4 Feature Engineering</span> <span class="text-[10px]">➡️</span></button>
+                <button onclick="switchSection('s1_5')" id="nav-s1_5" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>1.5 Vector Representations</span> <span class="text-[10px]">➡️</span></button>
+            </div>
+
+            <div class="space-y-1">
+                <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 px-3 mb-1">M2: Linguistic & Stats</div>
+                <button onclick="switchSection('s2_2')" id="nav-s2_2" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>2.2 Statistical Language Models</span> <span class="text-[10px]">➡️</span></button>
+                <button onclick="switchSection('s2_3')" id="nav-s2_3" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>2.3 Named Entity Recognition</span> <span class="text-[10px]">➡️</span></button>
+                <button onclick="switchSection('s2_4')" id="nav-s2_4" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>2.4 Topic Modeling</span> <span class="text-[10px]">➡️</span></button>
+                <button onclick="switchSection('s2_5')" id="nav-s2_5" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>2.5 Information Retrieval</span> <span class="text-[10px]">➡️</span></button>
+            </div>
+
+            <div class="space-y-1">
+                <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 px-3 mb-1">M3: Syntactics & Tasks</div>
+                <button onclick="switchSection('s3_1')" id="nav-s3_1" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>3.1 Parts-of-Speech Tagging</span> <span class="text-[10px]">➡️</span></button>
+                <button onclick="switchSection('s3_2')" id="nav-s3_2" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>3.2 Parsing Techniques</span> <span class="text-[10px]">➡️</span></button>
+                <button onclick="switchSection('s3_4')" id="nav-s3_4" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>3.4 Core Syntactic Tasks</span> <span class="text-[10px]">➡️</span></button>
+                <button onclick="switchSection('s3_5')" id="nav-s3_5" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>3.5 Model Evaluation Metrics</span> <span class="text-[10px]">➡️</span></button>
+            </div>
+
+            <div class="space-y-1">
+                <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 px-3 mb-1">M4: Dialogues & Networks</div>
+                <button onclick="switchSection('s4_1')" id="nav-s4_1" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>4.1 Conversational Analysis</span> <span class="text-[10px]">➡️</span></button>
+                <button onclick="switchSection('s4_2')" id="nav-s4_2" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>4.2 Dialogue Systems</span> <span class="text-[10px]">➡️</span></button>
+                <button onclick="switchSection('s4_3')" id="nav-s4_3" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>4.3 Statistical NLP Dialogue</span> <span class="text-[10px]">➡️</span></button>
+                <button onclick="switchSection('s4_4')" id="nav-s4_4" class="w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center"><span>4.4 Modern NLP Architectures</span> <span class="text-[10px]">➡️</span></button>
+            </div>
+        </aside>
+
+        <main class="flex-1 bg-[#0b0f19] p-4 md:p-6 lg:p-8 overflow-y-auto w-full lg:max-h-[calc(100vh-73px)]">
+            
+            <section id="pane-overview" class="space-y-8 max-w-5xl">
+                <div class="p-6 md:p-8 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 relative overflow-hidden">
+                    <span class="text-blue-400 font-mono text-xs uppercase tracking-widest font-semibold block mb-2">// CENTRAL COMPASS INDEX</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight mb-4">Syllabus-Aligned Linguistic Laboratory</h2>
+                    <p class="text-slate-400 text-xs md:text-sm leading-relaxed">
+                        Welcome to the unified corporate NLP research platform engineered by Deep and Prem. This workspace maps raw programmatic rules to full transformer sequence logic across four production curriculum milestones. Use the mobile side pop-up overlay navigation to swap terminals cleanly.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800"><div class="font-bold text-white text-sm mb-1">M1: Preprocessing & Features</div><p class="text-[11px] text-slate-400">Advanced tokenization matrix setups, vocabulary cleanup trees, and dimensional text vectorizers.</p></div>
+                    <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800"><div class="font-bold text-white text-sm mb-1">M2: Linguistic & Stats</div><p class="text-[11px] text-slate-400">N-gram distributions, smoothing matrix equations, topic discovery spaces, and Named Entity filters.</p></div>
+                    <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800"><div class="font-bold text-white text-sm mb-1">M3: Syntactics & Tasks</div><p class="text-[11px] text-slate-400">Dependency tree structures, Penn Treebank parameters, CKY parsers, and precision BLEU evaluation systems.</p></div>
+                    <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800"><div class="font-bold text-white text-sm mb-1">M4: Dialogues & Networks</div><p class="text-[11px] text-slate-400">Slot-filling state pipelines, recurrent neural GRU sequences, and self-attention vector graphs.</p></div>
+                </div>
+            </section>
+
+            <section id="pane-s1_2" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">1.2 Text Preprocessing Techniques</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-blue-400 font-bold block uppercase tracking-wider">Linguistic Notes</span>
+                        <p>Raw text strings undergo normalization transformations, strip operational token stopwords, apply case-folding metrics, and route to Porter or Snowball stemming rules or dictionary lemmatizers to unify semantic base structures.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 space-y-3">
+                        <input id="in-s1_2" class="w-full bg-slate-900 border border-slate-800 p-2 text-xs rounded font-mono text-white" value="The developers are studying variable engines.">
+                        <button onclick="runS1_2()" class="px-3 py-1.5 bg-blue-600 rounded text-xs text-white hover:bg-blue-500 transition-colors">Normalize Data</button>
+                        <div id="out-s1_2" class="p-2 bg-slate-900 rounded text-xs font-mono text-blue-400 flex flex-wrap gap-1">...</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s1_3" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">1.3 Advanced Tokenization (BPE & WordPiece)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-blue-400 font-bold block uppercase tracking-wider">Linguistic Notes</span>
+                        <p>Modern sequence models utilize Byte-Pair Encoding (BPE), WordPiece, or SentencePiece data splits to fragment text records into common base sub-words, effectively mitigating Out-Of-Vocabulary matrix calculation cracks.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 space-y-3">
+                        <input id="in-s1_3" class="w-full bg-slate-900 border border-slate-800 p-2 text-xs rounded font-mono text-white" value="unbelievable automation transformation">
+                        <button onclick="runS1_3()" class="px-3 py-1.5 bg-blue-600 rounded text-xs text-white hover:bg-blue-500 transition-colors">Segment Subwords</button>
+                        <div id="out-s1_3" class="p-2 bg-slate-900 rounded text-xs font-mono text-purple-400 flex flex-wrap gap-1">...</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s1_4" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">1.4 Feature Engineering (Bag-of-Words & TF-IDF)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-blue-400 font-bold block uppercase tracking-wider">Linguistic Notes</span>
+                        <p>Transforms raw textual units into sparse mathematical metrics using Bag-of-Words frequencies, hashing vectorizers, N-gram feature boundaries, or localized Term Frequency-Inverse Document Frequency scaling balances.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 space-y-3">
+                        <div class="text-xs font-mono text-slate-400 bg-slate-900 p-3 rounded space-y-1">
+                            <div>Term Frequency = <span class="text-yellow-400">(Count / Total Tokens)</span></div>
+                            <div>Inverse Doc Frequency = <span class="text-cyan-400">log(Total Docs / Matching Docs)</span></div>
+                        </div>
+                        <p class="text-[11px] text-slate-500 font-mono">// Vector spaces map feature sets cleanly.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s1_5" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">1.5 Semantic Vector Representations</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-blue-400 font-bold block uppercase tracking-wider">Linguistic Notes</span>
+                        <p>Dense continuous vectors model deep semantic relations. Features include Word2Vec frameworks (CBOW contexts vs Skip-Gram word predictions), GloVe global matrix factorizations, and subword FastText lookups.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 text-xs font-mono space-y-2 text-slate-400">
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800">
+                            <span class="text-emerald-400 block text-[10px] font-bold">CBOW Processing Vector Target</span>
+                            [Context: Deep, Studio] &rarr; Target Predict: ("Compiles")
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800">
+                            <span class="text-indigo-400 block text-[10px] font-bold">Skip-Gram Processing Vector Target</span>
+                            [Input Word: "Compiles"] &rarr; Context Predict: (["Deep", "Studio"])
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s2_2" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">2.2 Statistical Language Models & Smoothing</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-emerald-400 font-bold block uppercase tracking-wider">Statistical Notes</span>
+                        <p>Calculates data segment likelihood arrays using unigram, bigram, or trigram probability calculations. Models avoid zero-count assignment cracks via Laplace (+1), Good-Turing, or Kneser-Ney smoothing tools, measuring systemic uncertainty with text perplexity metrics.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 text-xs font-mono text-slate-400 space-y-2">
+                        <div class="bg-slate-900 p-2 rounded">
+                            <span class="text-emerald-400 block text-[10px] uppercase font-bold">Laplace Probability Equation</span>
+                            P_smoothed = (count(w_i) + 1) / (N + V)
+                        </div>
+                        <p class="text-[11px] text-slate-500">// Perplexity evaluation matrices tracking sequence variance.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s2_3" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">2.3 Named Entity Recognition (NER)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-emerald-400 font-bold block uppercase tracking-wider">Information Notes</span>
+                        <p>Extracts localized proper entities out of raw document lines. Processing routes use pattern-based regex setups, statistical sequence models (such as Hidden Markov Models or CRF pipelines), or deep neural network classifiers.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 space-y-2 text-xs font-mono">
+                        <div class="p-2 bg-slate-900 rounded text-slate-300 leading-relaxed">
+                            <span class="bg-blue-500/20 text-blue-400 px-1 border border-blue-500/30 rounded">Deep [PER]</span> deployed the computational engine at <span class="bg-purple-500/20 text-purple-400 px-1 border border-purple-500/30 rounded">Mumbai [LOC]</span> in <span class="bg-emerald-500/20 text-emerald-400 px-1 border border-emerald-500/30 rounded">2026 [TIME]</span>.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s2_4" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">2.4 Topic Modeling Techniques</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-emerald-400 font-bold block uppercase tracking-wider">Modeling Notes</span>
+                        <p>Performs automated document clustering and text category discovery. Structures map data distributions utilizing Latent Dirichlet Allocation (LDA) probability weights or Non-Negative Matrix Factorization (NMF), assessing clusters using structural topic coherence metrics.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 text-xs font-mono text-slate-400 space-y-2">
+                        <div class="p-2 bg-slate-900 rounded">
+                            <span class="text-yellow-400 block text-[10px] font-bold">LDA Topic Vector Output Matrix</span>
+                            Topic #1: ["neural", "weights", "transformer", "matrix"]
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s2_5" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">2.5 Information Retrieval Basics</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-emerald-400 font-bold block uppercase tracking-wider">Retrieval Notes</span>
+                        <p>Locates relevant documentation assets across vast unstructured content repositories. Queries convert profiles using standard Vector Space Models (VSM), running continuous cosine similarity scores to calculate match parameters and compile ranked results lists.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 space-y-3 text-xs font-mono">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input id="v25-a" type="text" class="bg-slate-900 border border-slate-800 p-2 rounded text-white" value="1.0, 0.0">
+                            <input id="v25-b" type="text" class="bg-slate-900 border border-slate-800 p-2 rounded text-white" value="0.9, 0.1">
+                        </div>
+                        <button onclick="runS2_5()" class="px-3 py-1.5 bg-emerald-600 rounded text-xs text-white hover:bg-emerald-500 transition-colors">Compute Cosine Alignment</button>
+                        <div class="text-slate-400">Cosine Vector Alignment Score: <span id="out-s2_5" class="text-blue-400 font-bold">0.000ed</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s3_1" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">3.1 Parts-of-Speech (POS) Tagging</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-indigo-400 font-bold block uppercase tracking-wider">Syntactic Notes</span>
+                        <p>Assigns structured grammar markers to token indices according to the Penn Treebank format. Tagging architectures handle word labels using programmatic logic trees, Hidden Markov Models, or sequence networks like BiLSTM-CRF setups.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 space-y-2 text-xs font-mono flex flex-wrap gap-2">
+                        <span class="bg-slate-900 p-2 rounded text-slate-300 border border-slate-800">Prem [NNP]</span>
+                        <span class="bg-slate-900 p-2 rounded text-slate-300 border border-slate-800">parses [VBZ]</span>
+                        <span class="bg-slate-900 p-2 rounded text-slate-300 border border-slate-800">the [DT]</span>
+                        <span class="bg-slate-900 p-2 rounded text-slate-300 border border-slate-800">syntax [NN]</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s3_2" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">3.2 Parsing Techniques (Constituency & Dependency)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-indigo-400 font-bold block uppercase tracking-wider">Parsing Notes</span>
+                        <p>Generates language representation trees across primary variants: Constituency parsing (breaking statements into nested sub-phrases via Cocke-Younger-Kasami [CKY] rules) and Dependency parsing (mapping directed grammatical links with shift-reduce steps).</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 text-xs font-mono space-y-2">
+                        <div class="p-2 bg-slate-900 border border-slate-800 rounded text-cyan-400 font-mono">
+                            S &rarr; NP VP | NP &rarr; NNP | VP &rarr; VBZ NP
+                        </div>
+                        <p class="text-[10px] text-slate-500">// Evaluates matrix derivation pathways recursively.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s3_4" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">3.4 Core Syntactic NLP Tasks</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-indigo-400 font-bold block uppercase tracking-wider">Application Notes</span>
+                        <p>Demonstrates pipeline applications supported by structural syntax. Task paths process machine-learning classification steps, polarity-based sentiment mapping, machine translation frameworks, and summarization pipelines (extractive snippets vs generative abstractive architectures).</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 text-xs font-mono space-y-2 text-slate-400">
+                        <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                            <span class="text-purple-400 block text-[10px] font-bold">Extractive Summarization</span>
+                            [Extracting critical sentence structures directly from source text nodes...]
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s3_5" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">3.5 Model Evaluation Metrics</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-indigo-400 font-bold block uppercase tracking-wider">Metrics Notes</span>
+                        <p>Measures model output accuracy using classification precision, recall, and balanced F1-scores. Translation and summary accuracy are scored using BLEU token overlap counts and ROUGE recall metrics against human-verified gold standards.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 text-xs font-mono space-y-2 text-slate-400">
+                        <div class="grid grid-cols-2 gap-2 bg-slate-900 p-2 rounded border border-slate-800 text-[11px]">
+                            <div>Precision: <span class="text-green-400">TP / (TP + FP)</span></div>
+                            <div>Recall: <span class="text-emerald-400">TP / (TP + FN)</span></div>
+                        </div>
+                        <p class="text-[10px] text-slate-500">// Generates a structural Confusion Matrix for performance validation.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s4_1" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">4.1 Conversational Analysis</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-purple-400 font-bold block uppercase tracking-wider">Dialogue Notes</span>
+                        <p>Maintains turn-taking coherence across conversational pipelines. Processing filters classify target intent classes, maintain track states within context layers, perform conversational slot-filling, and cross-reference unknown variables using entity-linking lookups.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 text-xs font-mono space-y-2">
+                        <select id="sel-s4_1" onchange="runS4_1()" class="w-full bg-slate-900 border border-slate-800 p-2 rounded text-white focus:outline-none">
+                            <option value="">-- Trigger Dialogue Parsing --</option>
+                            <option value="book">"Book a flight to Mumbai tomorrow."</option>
+                        </select>
+                        <div id="out-s4_1" class="p-2 bg-slate-900 rounded text-purple-400 text-[11px] min-h-[40px]">Awaiting system trigger selection...</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s4_2" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">4.2 Dialogue Systems</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-purple-400 font-bold block uppercase tracking-wider">Architecture Notes</span>
+                        <p>Compares three generations of engineering implementations: programmatic rule-based chatbots, pattern-matched database retrieval frameworks, and modern end-to-end generative dialogue architectures.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 text-xs font-mono text-slate-400 space-y-2">
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800 text-[11px]">
+                            <span class="text-cyan-400 block font-bold">Generative Pipeline Node</span>
+                            Input Sequence &rarr; Token Matrix Engine &rarr; Computed Dynamic Probability Distribution Response
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s4_3" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">4.3 Statistical NLP for Dialogue & Sequence Modeling</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-purple-400 font-bold block uppercase tracking-wider">Modeling Notes</span>
+                        <p>Bridges the gap between classical sequence statistics and deep neural networks. Framework architectures leverage statistical models (HMM and CRF) before shifting to neural sequence-to-sequence (Seq2Seq) encoders and decoding attention vectors.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 text-xs font-mono text-slate-400 space-y-2">
+                        <div class="p-2 bg-slate-900 rounded border border-red-900/40">
+                            <span class="text-red-400 block text-[10px] font-bold">Seq2Seq Information Bottleneck Layer</span>
+                            Long Sentences &rarr; [ Fixed Vector Bottleneck Container ] &rarr; Risks history parameter loss
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pane-s4_4" class="hidden space-y-4 max-w-5xl">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-slate-800 pb-2">4.4 Modern NLP Architectures Overview</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/40 p-4 border border-slate-800 rounded-xl text-xs space-y-2 text-slate-300">
+                        <span class="text-purple-400 font-bold block uppercase tracking-wider">Deep Learning Notes</span>
+                        <p>Processes text using deep recurrent loops. Explores structural hidden layers across Recurrent Neural Networks (RNN), Long Short-Term Memory (LSTM) gating mechanisms, and gated recurrent units (GRU) within encoder-decoder frameworks.</p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-900 space-y-3 text-xs font-mono">
+                        <div class="flex gap-2">
+                            <button onclick="stepS4_4(0.42)" class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300 text-[11px] hover:bg-slate-800">Compute Step t=1</button>
+                            <button onclick="stepS4_4(0.89)" class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-slate-300 text-[11px] hover:bg-slate-800">Compute Step t=2</button>
+                        </div>
+                        <div class="text-slate-400">GRU Hidden Output State Vector H_t: <span id="out-s4_4" class="text-purple-400 font-bold">[0.00, 0.00]</span></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Toggle Side Pop-Up Navbar Drawer (Mobile View Overlay States)
+        function toggleNav(isOpen) {
+            const sideNav = document.getElementById('sidebar-nav');
+            const overlay = document.getElementById('nav-overlay');
+            
+            if (isOpen) {
+                sideNav.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+                overlay.classList.add('opacity-100');
+            } else {
+                sideNav.classList.add('-translate-x-full');
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    if (sideNav.classList.contains('-translate-x-full')) {
+                        overlay.classList.add('hidden');
+                    }
+                }, 300);
+            }
+        }
+
+        function switchSection(targetId) {
+            const panes = ['overview','s1_2','s1_3','s1_4','s1_5','s2_2','s2_3','s2_4','s2_5','s3_1','s3_2','s3_4','s3_5','s4_1','s4_2','s4_3','s4_4'];
+            
+            panes.forEach(p => {
+                const view = document.getElementById(`pane-${p}`);
+                if (view) view.classList.add('hidden');
+                
+                const navBtn = document.getElementById(`nav-${p}`);
+                if (navBtn) {
+                    if (p === 'overview') {
+                        navBtn.className = "w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200";
+                    } else {
+                        navBtn.className = "w-full text-left px-3 py-2 text-xs rounded-lg transition-all text-slate-400 hover:bg-slate-900 hover:text-slate-200 flex justify-between items-center";
+                    }
+                }
+            });
+
+            document.getElementById(`pane-${targetId}`).classList.remove('hidden');
+            
+            const activeBtn = document.getElementById(`nav-${targetId}`);
+            if (activeBtn) {
+                if (targetId === 'overview') {
+                    activeBtn.className = "w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl font-medium text-sm transition-all bg-blue-600 text-white shadow-md";
+                } else {
+                    activeBtn.className = "w-full text-left px-3 py-2 text-xs rounded-lg transition-all bg-slate-800 text-blue-400 font-bold flex justify-between items-center border-l-2 border-l-blue-500 pl-2";
+                }
+            }
+
+            // Automatically dismiss popups on smaller views upon node choice confirmation
+            if (window.innerWidth < 1024) {
+                toggleNav(false);
+            }
+        }
+
+        function runS1_2() {
+            const val = document.getElementById('in-s1_2').value.toLowerCase();
+            const words = val.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(' ');
+            const stops = ['the', 'are', 'is', 'at'];
+            const target = document.getElementById('out-s1_2'); 
+            target.innerHTML = '';
+            words.forEach(w => {
+                if(!stops.includes(w) && w) {
+                    let stem = w.replace(/ing$|ers$/, '');
+                    target.innerHTML += `<span class="bg-blue-500/10 border border-blue-500/20 px-1.5 py-0.5 rounded text-[11px]">${stem}</span>`;
+                }
+            });
+        }
+
+        function runS1_3() {
+            const words = document.getElementById('in-s1_3').value.split(' ');
+            const target = document.getElementById('out-s1_3'); 
+            target.innerHTML = '';
+            words.forEach(w => {
+                if(w) {
+                    let formatted = w.length > 7 ? w.slice(0, 4) + " ##" + w.slice(4) : w;
+                    target.innerHTML += `<span class="bg-purple-500/10 border border-purple-500/20 px-1.5 py-0.5 rounded text-[11px]">${formatted}</span>`;
+                }
+            });
+        }
+
+        function runS2_5() {
+            const a = document.getElementById('v25-a').value.split(',').map(Number);
+            const b = document.getElementById('v25-b').value.split(',').map(Number);
+            const dot = (a[0]*b[0]) + (a[1]*b[1]);
+            const magA = Math.sqrt(a[0]*a[0] + a[1]*a[1]);
+            const magB = Math.sqrt(b[0]*b[0] + b[1]*b[1]);
+            const res = (magA * magB) === 0 ? 0 : (dot / (magA * magB));
+            document.getElementById('out-s2_5').innerText = res.toFixed(4);
+        }
+
+        function runS4_1() {
+            const select = document.getElementById('sel-s4_1').value;
+            const out = document.getElementById('out-s4_1');
+            if(select === 'book') {
+                out.innerHTML = `<strong>Intent:</strong> Book_Flight<br><strong>Slots:</strong> { Destination: "Mumbai", Time: "Tomorrow" }`;
+            } else {
+                out.innerText = "Awaiting system trigger selection...";
+            }
+        }
+
+        function stepS4_4(val) {
+            document.getElementById('out-s4_4').innerText = `[${val}, ${(val*0.35).toFixed(2)}]`;
+        }
+    </script>
+</body>
+</html>
